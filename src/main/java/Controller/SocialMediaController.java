@@ -29,7 +29,6 @@ public class SocialMediaController {
      */
     public Javalin startAPI() {
         Javalin app = Javalin.create();
-        app.start(8080);
         app.post("/register", this::registerUser);
         app.post("/login", this::loginUser);
         app.post("/messages", this::newMessage);
@@ -58,18 +57,26 @@ public class SocialMediaController {
     private void registerUser(Context ctx) throws JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
         Account account = mapper.readValue(ctx.body(), Account.class);
-        if(account.getUsername().isBlank() || account.getPassword().length() <4){
-            ctx.status(400).json("invalid");
+    
+        // Check if the username is blank or password is too short
+        if (account.getUsername().isBlank() || account.getPassword().length() < 4) {
+            ctx.status(400);
             return;
         }
 
-        Account register = socialMediaService.userRegistration(account);
-
-        if(register !=null){
-            ctx.status(200).json(register);
+        // Check if the username already exists
+        if (socialMediaService.isUsernameTaken(account.getUsername())) {
+            ctx.status(400);
+            return;
         }
-        else{
-            ctx.status(400).json("error");
+
+        // Register the user and return the account object with account_id
+        Account registeredAccount = socialMediaService.userRegistration(account);
+
+        if (registeredAccount != null) {
+            ctx.status(200).json(registeredAccount);
+        } else {
+            ctx.status(400);
         }
 
 
@@ -78,7 +85,8 @@ public class SocialMediaController {
     //login user
     //if successfull status 200
     //if not status 401
-    private void loginUser(Context ctx){
+    private void loginUser(Context ctx)throws JsonProcessingException{
+
 
     }
 
@@ -93,7 +101,7 @@ public class SocialMediaController {
     //gets all messages
     //should always be status 200
     private void getAllMessages(Context ctx){
-
+        ctx.status(200).json(socialMediaService.getAllMessages());
     }
 
     //contain message indentified by id

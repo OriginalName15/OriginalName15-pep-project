@@ -2,19 +2,32 @@ package Service;
 
 import DAO.SocialMediaDAO;
 import Model.Account;
+import Model.Message;
+import java.util.List;
 
 public class SocialMediaService {
     SocialMediaDAO mediaDAO;
 
-    public SocialMediaService(){
+    public SocialMediaService() {
         mediaDAO = new SocialMediaDAO();
     }
 
-    public SocialMediaService(SocialMediaDAO mediaDAO){
+    public SocialMediaService(SocialMediaDAO mediaDAO) {
         this.mediaDAO = mediaDAO;
     }
 
-    public Account userRegistration(Account account){
+    // Check if username already exists
+    public boolean isUsernameTaken(String username) {
+        return mediaDAO.isUsernameTaken(username);
+    }
+
+    // Register new user
+    public Account userRegistration(Account account) {
         return mediaDAO.registerUser(account);
+    }
+
+    //get all messages
+    public List<Message> getAllMessages(){
+        return mediaDAO.getAllMessages();
     }
 }
