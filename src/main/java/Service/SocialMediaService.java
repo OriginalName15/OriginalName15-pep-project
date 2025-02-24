@@ -30,4 +30,9 @@ public class SocialMediaService {
     public List<Message> getAllMessages(){
         return mediaDAO.getAllMessages();
     }
+
+    //get message from ID
+    public Message getMessageByID(Integer message_id){
+        return mediaDAO.getMessageByID(message_id);
+    }
 }

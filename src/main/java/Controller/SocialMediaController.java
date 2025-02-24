@@ -10,6 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import Model.Account;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import Model.Account;
+import Model.Message;
+import java.util.List;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
@@ -107,7 +110,14 @@ public class SocialMediaController {
     //contain message indentified by id
     // should always be status 200
     private void getMessageByID(Context ctx){
-
+        int messageId = Integer.parseInt(ctx.pathParam("message_id"));
+        Message message = socialMediaService.getMessageByID(messageId);
+ 
+        if (message == null) {
+            ctx.status(200);
+        } else {
+            ctx.status(200).json(message);
+        }
     }
 
     //delete message by id
