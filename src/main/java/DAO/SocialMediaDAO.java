@@ -23,7 +23,7 @@ public class SocialMediaDAO {
             // If resultSet has any records, the username is already taken
             return resultSet.next();
         } catch (SQLException e) {
-            System.out.println("Error checking username: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
         return false;
         }
@@ -45,9 +45,28 @@ public class SocialMediaDAO {
                 return new Account(generatedAccountId, account.getUsername(), account.getPassword());
             }
         } catch (SQLException e) {
-            System.out.println("Error registering user: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    // Login user
+    public boolean loginUser(String userName, String password){
+        Connection connection = ConnectionUtil.getConnection();
+        try{
+            String sql = "SELECT * FROM Account WHERE username = ? AND password = ?;";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, userName);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 
     // Get all messages

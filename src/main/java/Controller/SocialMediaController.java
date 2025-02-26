@@ -89,7 +89,14 @@ public class SocialMediaController {
     //if successfull status 200
     //if not status 401
     private void loginUser(Context ctx)throws JsonProcessingException{
-
+        ObjectMapper mapper = new ObjectMapper();
+        Account account = mapper.readValue(ctx.body(), Account.class);
+        if(socialMediaService.loginUser(account.getUsername(), account.getPassword())){
+            ctx.status(200).json(account);
+        }
+        else{
+            ctx.status(401);
+        }
 
     }
 

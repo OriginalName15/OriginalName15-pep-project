@@ -26,6 +26,11 @@ public class SocialMediaService {
         return mediaDAO.registerUser(account);
     }
 
+    //login user
+    public boolean loginUser(String userName, String password){
+        return mediaDAO.loginUser(userName, password);
+    }
+
     //get all messages
     public List<Message> getAllMessages(){
         return mediaDAO.getAllMessages();
