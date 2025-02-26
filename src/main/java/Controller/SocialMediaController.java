@@ -39,7 +39,7 @@ public class SocialMediaController {
         app.get("/messages/{message_id}", this::getMessageByID);
         app.delete("/messages/{message_id}", this::deleteMessageByID);
         app.patch("/messages/{message_id}", this::updateMessageByID);
-        app.get("/accounts/{account_id}", this::getAllMessagesByUser);
+        app.get("/accounts/{account_id}/messages", this::getAllMessagesByUser);
 
         return app;
     }
@@ -136,7 +136,9 @@ public class SocialMediaController {
     //should get all messages by a user
     //status is always 200
     private void getAllMessagesByUser(Context ctx){
-
+        int userId = Integer.parseInt(ctx.pathParam("account_id"));
+        List<Message> messages = socialMediaService.getAllMessagesByUserID(userId);
+        ctx.status(200).json(messages);
     }
 
 
