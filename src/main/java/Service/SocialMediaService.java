@@ -31,6 +31,12 @@ public class SocialMediaService {
         return mediaDAO.loginUser(userName, password);
     }
 
+    // get account from username
+    public Account getAccountByUsername(String username) {
+        return mediaDAO.getAccountByUsername(username);
+    }
+
+
     //get all messages
     public List<Message> getAllMessages(){
         return mediaDAO.getAllMessages();

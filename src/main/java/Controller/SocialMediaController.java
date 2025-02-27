@@ -92,7 +92,8 @@ public class SocialMediaController {
         ObjectMapper mapper = new ObjectMapper();
         Account account = mapper.readValue(ctx.body(), Account.class);
         if(socialMediaService.loginUser(account.getUsername(), account.getPassword())){
-            ctx.status(200).json(account);
+            Account loggedInAccount = socialMediaService.getAccountByUsername(account.getUsername());
+            ctx.status(200).json(loggedInAccount);
         }
         else{
             ctx.status(401);
@@ -104,8 +105,15 @@ public class SocialMediaController {
     //check if message is not blank and not over 255 characters
     //if successfull status 200
     //if not status 400
-    private void newMessage(Context ctx){
+    private void newMessage(Context ctx) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        if(message.message_text.isBlank() || message.message_text.length() > 255){
+            ctx.status(400);
+            return;
+        }
 
+        
     }
 
     //gets all messages
