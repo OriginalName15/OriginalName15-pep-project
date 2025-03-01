@@ -36,6 +36,16 @@ public class SocialMediaService {
         return mediaDAO.getAccountByUsername(username);
     }
 
+    // check is user is valid by id
+    public boolean isUserIdValid(Integer userID){
+        return mediaDAO.isUserIdValid(userID);
+    }
+
+    //create new message
+    public Message createdMessage(Message message){
+        return mediaDAO.createdMessage(message);
+    }
+
 
     //get all messages
     public List<Message> getAllMessages(){

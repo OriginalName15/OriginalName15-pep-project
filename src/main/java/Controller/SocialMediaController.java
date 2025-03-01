@@ -112,7 +112,18 @@ public class SocialMediaController {
             ctx.status(400);
             return;
         }
+        
+        if(!socialMediaService.isUserIdValid(message.posted_by)){
+            ctx.status(400);
+            return;
+        }
 
+        Message createdMessage = socialMediaService.createdMessage(message);
+        if (createdMessage != null) {
+            ctx.status(200).json(createdMessage);
+        } else {
+            ctx.status(400);
+        }
         
     }
 
