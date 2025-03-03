@@ -57,6 +57,16 @@ public class SocialMediaService {
         return mediaDAO.getMessageByID(message_id);
     }
 
+    //update message by Id
+    public Message updateMessageByID(int messageId, Message message){
+        Message existingMessage = mediaDAO.getMessageByID(messageId);
+        if(existingMessage == null){
+            return null;
+        }
+        mediaDAO.updateMessageByID(messageId, message);
+        return mediaDAO.getMessageByID(messageId);
+    }
+
     //get all messages from userID
     public List<Message> getAllMessagesByUserID(Integer user_ID){
         return mediaDAO.getAllMessagesByUserID(user_ID);

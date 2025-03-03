@@ -175,6 +175,21 @@ public class SocialMediaDAO {
         return message;
     }
 
+    //update message by id
+    public void updateMessageByID(int messageID, Message message){
+        Connection connection = ConnectionUtil.getConnection();
+        try{
+            String sql ="update Message set message_text = ?  where message_id =?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, message.getMessage_text());
+            preparedStatement.setInt(2, messageID);
+
+            preparedStatement.executeUpdate();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
     ////get all messages from userID
     public List<Message> getAllMessagesByUserID(Integer user_ID){
         Connection connection = ConnectionUtil.getConnection();

@@ -155,8 +155,22 @@ public class SocialMediaController {
     //update a message by id
     //if successfull status 200
     //if not status 400
-    private void updateMessageByID(Context ctx){
+    private void updateMessageByID(Context ctx) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        int messageId = Integer.parseInt(ctx.pathParam("message_id"));
+        if(message.message_text.isBlank() || message.message_text.length() > 255){
+            ctx.status(400);
+            return;
+        }
 
+        Message updatedMessage = socialMediaService.updateMessageByID(messageId, message);
+        if(updatedMessage == null){
+            ctx.status(400);
+        }
+        else{
+        ctx.status(200).json(mapper.writeValueAsString(updatedMessage));
+        }
     }
 
     //should get all messages by a user
