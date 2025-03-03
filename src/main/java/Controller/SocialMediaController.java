@@ -148,8 +148,17 @@ public class SocialMediaController {
 
     //delete message by id
     //status should be 200
-    private void deleteMessageByID(Context ctx){
+    private void deleteMessageByID(Context ctx) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        int messageId = Integer.parseInt(ctx.pathParam("message_id"));
 
+        Message deletedMessage = socialMediaService.deleteMessageByID(messageId);
+        if(deletedMessage == null){
+            ctx.status(200);
+        }
+        else{
+            ctx.status(200).json(deletedMessage);
+        }
     }
 
     //update a message by id

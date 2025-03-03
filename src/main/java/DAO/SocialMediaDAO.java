@@ -175,6 +175,20 @@ public class SocialMediaDAO {
         return message;
     }
 
+    //delete message by id
+    public void deleteMessageByID(int message_id){
+        Connection connection = ConnectionUtil.getConnection();
+        try{
+            String sql = "DELETE from Message where message_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1,message_id);
+
+            preparedStatement.executeUpdate();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
     //update message by id
     public void updateMessageByID(int messageID, Message message){
         Connection connection = ConnectionUtil.getConnection();

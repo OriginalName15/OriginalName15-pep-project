@@ -57,6 +57,16 @@ public class SocialMediaService {
         return mediaDAO.getMessageByID(message_id);
     }
 
+    //delete message by Id
+    public Message deleteMessageByID(int message_id){
+        Message existingMessage = mediaDAO.getMessageByID(message_id);
+        if(existingMessage == null){
+            return null;
+        }
+        mediaDAO.deleteMessageByID(message_id);
+        return existingMessage;
+    }
+
     //update message by Id
     public Message updateMessageByID(int messageId, Message message){
         Message existingMessage = mediaDAO.getMessageByID(messageId);
